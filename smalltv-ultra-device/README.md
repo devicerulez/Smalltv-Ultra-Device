@@ -1,49 +1,35 @@
-# SmallTV Ultra - Orologio + Meteo
+# SmallTV Ultra Device - Prerelease V.1.0.0 Italiano - Orologio + Meteo
 
 Firmware personalizzato per SmallTV Ultra (ESP8266, TFT ST7789 240x240, flash 4 MB).
 
-- Orologio grande con barra dei secondi, data in italiano, ora automatica (NTP) con fuso **Europe/Rome** e ora legale
+- Orologio grande con barra dei secondi, data in italiano, ora automatica (NTP) con fuso **Europe/Rome** e ora legale/solare automatica
 - Meteo con icone disegnate a codice, temperatura, min/max, umidita' (Open-Meteo, gratis, nessuna chiave API)
 - 5 temi colore (Neon, Aurora, Tramonto, Ghiaccio, Ambra)
 - **Portale Wi-Fi**: se non c'e' una rete salvata (o non si collega) il display mostra come configurarla dal telefono
 - **Interfaccia web** su `http://smalltv.local` (o l'IP mostrato all'avvio): citta', tema, luminosita', rotazione, aggiornamento firmware
 
-> Non testato su hardware reale: i pin sono quelli piu' comuni per questo dispositivo. Vedi "Se qualcosa non va".
+> Testato su hardware reale: i pin sono quelli piu' comuni per questo dispositivo. Vedi "Se qualcosa non va".
 
-## 1. Ottenere il .bin
-
-### A) Senza installare nulla: GitHub Actions
-1. Crea un repository GitHub (anche privato) e carica tutto il contenuto di questa cartella.
-2. Scheda **Actions** -> "Compila firmware SmallTV Ultra" -> attendi circa 3 minuti.
-3. Scarica l'artefatto `smalltv-ultra-firmware` -> contiene `smalltv-ultra-firmware.bin`.
-
-### B) In locale con PlatformIO
+## 1. Backup del firmware originale (consigliato!)
+Collega il dispositivo via USB e con `esptool` (`pip install esptool`):
 ```
-pip install platformio
-pio run
+esptool.py --port COMX read_flash 0 0x400000 backup-originale.bin
 ```
-Il file e' in `.pio/build/smalltv_ultra/firmware.bin`.
+Per ripristinare il firmware originale: `esptool.py --port COMX write_flash 0 backup-originale.bin`.
 
-## 2. Backup del firmware originale (consigliato!)
-Collega il dispositivo via USB e, con `esptool` (`pip install esptool`):
-```
-esptool.py --port COM3 read_flash 0 0x400000 backup-originale.bin
-```
-(su Linux/macOS la porta e' tipo `/dev/ttyUSB0`). Per tornare indietro: `esptool.py --port COM3 write_flash 0 backup-originale.bin`.
-
-## 3. Installare il firmware
+## 2. Installare il firmware
 Via USB:
 ```
-esptool.py --port COM3 --baud 460800 write_flash 0x0 smalltv-ultra-firmware.bin
+esptool.py --port COMX --baud 460800 write_flash 0x0 smalltv-ultra-firmware.bin
 ```
 A seconda del modello puo' servire mettere GPIO0 a GND all'accensione per entrare in modalita' bootloader.
 Se il firmware originale ha una pagina di aggiornamento via browser, puoi provare a caricare il `.bin` da li'; dopo la prima installazione gli aggiornamenti si fanno da `http://smalltv.local/update`.
 
-## 4. Primo avvio
+## 3. Primo avvio
 1. Il display mostra **CONFIGURA WI-FI**: collegati alla rete `SmallTV-Setup` (password `smalltv1234`).
 2. Si apre da sola la pagina di setup (altrimenti vai su `192.168.4.1`): scegli la rete e inserisci la password.
 3. Lo SmallTV si riavvia, mostra l'indirizzo e passa all'orologio.
-4. Dal telefono, ora collegato al tuo Wi-Fi, apri `http://smalltv.local` per scegliere citta' e tema.
+4. Dal telefono, ora collegato al tuo Wi-Fi, apri l'indirizzo segnalato al riavvio per configurare il dispositivo.
 
 ## Se qualcosa non va
 | Sintomo | Cosa fare |
