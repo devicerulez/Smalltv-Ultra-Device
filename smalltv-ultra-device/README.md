@@ -20,7 +20,7 @@ Per ripristinare il firmware originale: `esptool.py --port COMX write_flash 0 ba
 ## 2. Installare il firmware
 Via USB:
 ```
-esptool.py --port COMX --baud 460800 write_flash 0x0 smalltv-ultra-firmware.bin
+esptool.py --port COMX --baud 460800 write_flash 0x0 smalltv-ultra-firmware1.0.0.bin
 ```
 A seconda del modello puo' servire mettere GPIO0 a GND all'accensione per entrare in modalita' bootloader.
 Se il firmware originale ha una pagina di aggiornamento via browser, puoi provare a caricare il `.bin` da li'; dopo la prima installazione gli aggiornamenti si fanno da `http://smalltv.local/update`.
