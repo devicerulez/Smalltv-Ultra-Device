@@ -1,4 +1,4 @@
-# SmallTV Ultra Device - Prerelease V.1.0.0 Italiano - Orologio + Meteo
+# SmallTV Ultra Device (ESP8266) - Prerelease V.1.0.0 Italiano - Orologio + Meteo
 
 Firmware personalizzato per SmallTV Ultra (ESP8266, TFT ST7789 240x240, flash 4 MB).
 
